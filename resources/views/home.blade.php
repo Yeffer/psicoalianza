@@ -26,19 +26,28 @@
 								<td>{{ $empleadoItem->nombres }}</td>
 								<td>{{ $empleadoItem->apellidos }}</td>
 								<td>{{ $empleadoItem->identificacion }}</td>
-								<td>{{ $empleadoItem->telefono }}</td>
-								<td>{{ $empleadoItem->cargo }}</td>
+								<td>{{ $empleadoItem->telefono }}</td>								
+								<td>
+								@foreach($cargos as $cargoRow)
+									@if($cargoRow->empleado_id == $empleadoItem->id)
+										<ul class="list-group">
+										  <li>{{ $cargoRow->nombre }}</li>											  
+										</ul>    										
+									@endif
+								@endforeach								
+								</td>
 								<td>{{ $empleadoItem->pais }}</td>
 								<td>{{ $empleadoItem->ciudad }}</td>
-								<td>
-									<a href=""><button class='btn btn-success btn-sm'>Editar</button></a>
+								<td>									
+									<a href="{{ route('crear.edit', $empleadoItem->id) }}"><button class='btn btn-success btn-sm'>Editar</button></a>
 								</td>
 								<td>								
-									<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal-delete-">
+									<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $empleadoItem->id }}">
 									  Eliminar
-									</button>									
+									</button>								
 								</td>
-							</tr>							
+							</tr>
+						@include('partials.delete')							
 						@empty
 							<td>No hay registros para mostrar</td>													
 						@endforelse						

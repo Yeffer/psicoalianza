@@ -8,10 +8,11 @@
 	<link rel="stylesheet" type="text/css" href="/css/app.css">
     
     <script src="/js/app.js" defer></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
 	<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
   </head>
 </head>
@@ -21,7 +22,7 @@
 </head>
 <body>
 	@include('partials.nav')
-	@yield('content')	
+	@yield('content')
 	@yield('script')
 </body>
 </html>

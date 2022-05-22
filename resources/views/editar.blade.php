@@ -5,10 +5,10 @@
 <div class="container">
 <br>
 <div class="card">
-  	<div class="card-header">NUEVO EMPLEADO</div>
+  	<div class="card-header">EDITAR EMPLEADO</div>
  		<div class="card-body">			
-			<form class="form-horizontal" id="clienteForm" method="POST" action="{{ route('crear.store') }}">
-				@csrf 
+			<form class="form-horizontal" id="clienteForm" method="POST" action="{{ route('crear.update', $empleados->id) }}">
+				@csrf @method('PATCH') 
 			  	<div class="form-group row">
 			     	<label class="control-label col-sm-2" for="nombres">Nombres:</label>
 			    	<div class="col-sm-10">          
@@ -17,7 +17,7 @@
 				        	   id="nombres" 
 				        	   placeholder="Ingrese nombres" 
 				        	   class="form-control" 
-				        	   value="" 
+				        	   value="{{ $empleados->nombres }}" 
 				        >
 				        {!! $errors->first('nombres', '<small>:message</small><br>')  !!}
 			      	</div>
@@ -30,7 +30,7 @@
 				        	   id="apellidos" 
 				        	   placeholder="Ingrese apellidos" 
 				        	   class="form-control" 
-				        	   value="" 
+				        	   value="{{ $empleados->apellidos }}" 
 				        >
 				        {!! $errors->first('apellidos', '<small>:message</small><br>')  !!}
 			      	</div>
@@ -43,7 +43,7 @@
 		        		   placeholder="Ingrese identificacion"
 		        		   name="identificacion"
 		        		   class="form-control"
-		        		   value="">
+		        		   value="{{ $empleados->identificacion }}">
 		        	{!! $errors->first('identificacion', '<small>:message</small><br>')  !!}
 		      	</div>
 		    </div>
@@ -55,7 +55,7 @@
 		        		   placeholder="Ingrese teléfono"
 		        		   name="telefono"
 		        		   class="form-control"
-		        		   value="">
+		        		   value="{{ $empleados->telefono }}">
 		        	{!! $errors->first('telefono', '<small>:message</small><br>')  !!}
 		      	</div>
 		    </div>		    	    	
@@ -64,8 +64,12 @@
 		      	<div class="col-sm-10">          
 		        	<select class="form-control" id="pais" name="pais" aria-label="Default select example">
 		        		<option value="">Seleccione...</option> 	
-			        	@forelse($paises as $paiseItem)		        		
-			        		<option value="{{ $paiseItem->id}}">{{ $paiseItem->pais}}</option>	
+			        	@forelse($paises as $paiseItem)		   
+			        		@if($empleados->pais_id == $paiseItem->id)     		
+			        			<option value="{{ $paiseItem->id}}" selected>{{ $paiseItem->pais}}</option>	
+			        		@else
+			        			<option value="{{ $paiseItem->id}}">{{ $paiseItem->pais}}</option>	
+			        		@endif
 			        	@empty
 							<td>No hay registros para mostrar</td>
 						@endforelse						
@@ -80,9 +84,11 @@
 		        	<select class="form-control" id="ciudad"   name="ciudad" aria-label="Default select example">
 		        		<option value="">Seleccione...</option> 	
 		        		@forelse($ciudades as $ciudadItem)	
-		        			@if($paiseItem->codigo == $ciudadItem->codigo)	    		        		
-		        				<option value="{{ $ciudadItem->id}}">{{ $ciudadItem->ciudad}}</option>	
-		        			@endif
+		        			@if($empleados->ciudad_id == $ciudadItem->id)
+			        			<option value="{{ $ciudadItem->id}}" selected>{{ $ciudadItem->ciudad}}</option>	
+		        			@else
+		                    	<option value="{{ $ciudadItem->id}}">{{ $ciudadItem->ciudad}}</option>	
+		                	@endif
 		        		@empty
 							<td>No hay registros para mostrar</td>
 						@endforelse								
@@ -96,8 +102,12 @@
 		      	<div class="col-sm-10">          
 		        	<select class="form-control" id="cargo"  name="cargo[]" aria-label="Default select example" multiple>
 		        		<option value="">Seleccione...</option> 	
-		        		@forelse($cargos as $cargoItem)		        		
-			        		<option value="{{ $cargoItem->id}}">{{ $cargoItem->nombre}}</option>		
+		        		@forelse($cargos as $cargoItem)	
+		        			@if($empleados->id == $cargoItem->empleado_id)	        		
+			        			<option value="{{ $cargoItem->id}} " selected>{{ $cargoItem->nombre}}</option>		
+			        		@else
+			        			<option value="{{ $cargoItem->id}}" >{{ $cargoItem->nombre}}</option>		
+			        		@endif
 			        	@empty
 							<td>No hay registros para mostrar</td>
 						@endforelse									        		        							
@@ -107,7 +117,7 @@
 	    	</div>	   
 		    	<div class="form-group row">        
 		      		<div class="col-sm-offset-2 col-sm-10">
-		        		<button type="submit" class="btn btn-primary" id="registro">Nuevo</button>
+		        		<button type="submit" class="btn btn-primary" id="registro">Editar</button>
 		      		</div>
 		    	</div>
 		  	</form>
@@ -125,7 +135,8 @@
 	        searchResultLimit:5,
 	        renderChoiceLimit:5
 	      }); 
+	     
+	     
 	 }); 
-	 
 </script>
 @endsection
